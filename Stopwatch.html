@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stopwatch</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    
+    .container {
+      margin-top: 50px;
+    }
+   
+    #display {
+      font-size: 2em;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #FFFFFF; 
+      background-color: #3498db; 
+      padding: 10px; 
+      border-radius: 5px; 
+    }
+    
+    .btn-group {
+      text-align: center;
+    }
+   
+    .btn-primary {
+      background-color: #2ecc71; 
+      border-color: #2ecc71;
+    }
+    .btn-danger {
+      background-color: #e74c3c; 
+      border-color: #e74c3c;
+    }
+    .btn-secondary {
+      background-color: #f39c12;
+      border-color: #f39c12;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div id="display">00:00:00</div>
+
+  <div class="btn-group">
+   
+    <button id="startBtn" class="btn btn-primary" onclick="startTimer()">Start</button>
+    
+    <button id="stopBtn" class="btn btn-danger" onclick="stopTimer()" disabled>Stop</button>
+
+    <button class="btn btn-secondary" onclick="reset()">Reset</button>
+  </div>
+</div>
+
+<!-- JavaScript code -->
+<script>
+  let timer;
+  let hours = 0;
+  let minutes = 0;
+  let seconds = 0;
+
+  // Function to start the stopwatch
+  function startTimer() {
+   
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('stopBtn').disabled = false;
+    // Start the timer
+    timer = setInterval(updateTime, 1000);
+  }
+
+  // Function to stop the stopwatch
+  function stopTimer() {
+    // Enable the start button and disable the stop button
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('stopBtn').disabled = true;
+    // Stop the timer
+    clearInterval(timer);
+  }
+
+  // Function to update the stopwatch time
+  function updateTime() {
+    
+    seconds++;
+    // If seconds reach 60, reset seconds and increment minutes
+    if (seconds === 60) {
+      seconds = 0;
+      minutes++;
+      // If minutes reach 60, reset minutes and increment hours
+      if (minutes === 60) {
+        minutes = 0;
+        hours++;
+      }
+    }
+    
+    document.getElementById('display').textContent = pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+  }
+
+  // Function to reset the stopwatch
+  function reset() {
+    
+    clearInterval(timer);
+    // Enable the start button and disable the stop button
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('stopBtn').disabled = true;
+    // Reset hours, minutes, seconds, and display
+    hours = minutes = seconds = 0;
+    document.getElementById('display').textContent = '00:00:00';
+  }
+
+  // Function to pad single-digit numbers with leading zeros
+  function pad(val) {
+    return val > 9 ? val : '0' + val;
+  }
+</script>
+
+</body>
+</html>
